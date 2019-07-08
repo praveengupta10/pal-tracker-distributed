@@ -23,8 +23,8 @@ public class ApplicationServer {
 
     public void start(Map<String, String> env) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder()
-            .command("java", "-jar", jarPath)
-            .inheritIO();
+                .command("java", "-jar", jarPath)
+                .inheritIO();
 
         processBuilder.environment().put("SERVER_PORT", port);
         env.forEach((key, value) -> processBuilder.environment().put(key, value));
@@ -37,17 +37,16 @@ public class ApplicationServer {
 
         start(envMapBuilder()
                 .put("SPRING_DATASOURCE_URL", dbUrl)
-                         .put("EUREKA_CLIENT_ENABLED", "false")
-                         .put("RIBBON_EUREKA_ENABLED", "false")
-                         .put("REGISTRATION_SERVER_RIBBON_LISTOFSERVERS", "http://localhost:8883")
+                .put("EUREKA_CLIENT_ENABLED", "false")
+                .put("RIBBON_EUREKA_ENABLED", "false")
+                .put("REGISTRATION_SERVER_RIBBON_LISTOFSERVERS", "http://localhost:8883")
                 .build()
-      );
+        );
     }
 
     public void stop() {
         serverProcess.destroyForcibly();
     }
-
 
     public static void waitOnPorts(String... ports) throws InterruptedException {
         for (String port : ports) waitUntilServerIsUp(port);
@@ -55,7 +54,7 @@ public class ApplicationServer {
 
     private static void waitUntilServerIsUp(String port) throws InterruptedException {
         HttpClient httpClient = new HttpClient();
-        int timeout = 1200;
+        int timeout = 12000;
         Instant start = Instant.now();
         boolean isUp = false;
 
@@ -79,4 +78,3 @@ public class ApplicationServer {
         }
     }
 }
-
